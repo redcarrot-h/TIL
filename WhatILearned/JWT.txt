@@ -74,7 +74,6 @@ Secret Key를 이용해 토큰을 발급한다.
 토큰은 탈취당하게 되면 유효 시간이 종료되기 전까지는 탈취자가 얼마든지 악의적으로 사용이 가능하다.
 그래서 Refresh Token이라는 것을 이용해 피해를 조금이라도 줄일 수 있다.
 
-
 <p>출처</p>
 <li>https://velog.io/@stampid/%EC%BF%A0%ED%82%A4-%EC%84%B8%EC%85%98-%EA%B7%B8%EB%A6%AC%EA%B3%A0-JWT</li>
 </body>
