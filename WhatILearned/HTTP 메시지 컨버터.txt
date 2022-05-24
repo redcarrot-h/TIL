@@ -1,0 +1,7 @@
+HTTP 메시지 컨버터란?
+JSON 데이터를 HTTP 메시지 바디에서 직접 읽거나 쓰는 경우, HTTP 메시지 컨버터를 사용하면 매우 편리하다!
+HTTP 메시지 컨버터란, 요청 본문에서 메시지를 읽어들이거나(@RequestBody), 
+응답 본문에 메시지를 작성할 때(@ResponseBody) 사용하는 컨버터다.
+
+
+출처: https://yeonyeon.tistory.com/151 [연로그:티스토리]
