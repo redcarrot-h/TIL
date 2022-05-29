@@ -1,0 +1,16 @@
+20220527 TIL
+
+절차지향 - 계산기 프로그램
+requestParam get을 많이 씀
+id는 정규식 검사랑 include 검색할 것
+DTO DAO 차이점 찾아보기
+코드 짜기 전에 sequence diagram 활용해보기
+빈도 높은 오류 : 형변환 오류, 사이즈 오류
+int형, string형 잘 모르겠다면 string으로 선언하기
+삼항연산자, for each, 자바 반복 조건문 활용해보기
+조건문을 쓸때 true을 생략할 수 있으면 생략하자.
+알고리즘 짤 때 현실에서 한다고 생각하고 행동으로 해보자.
+mvc 모델
+model : 데이터 (자바객체)
+view : 화면(html)
+controller : 사용자 요청을 받아서 처리해서 응답해주는 애
