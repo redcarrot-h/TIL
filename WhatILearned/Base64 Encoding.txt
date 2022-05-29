@@ -1,0 +1,67 @@
+Base64 Encoding
+
+Base64 인코딩이란??
+결론부터 말하면 "이진(Binary)데이터를 6byte 씩 잘라서 64개의 문자로 맵핑 하는것" 이다. 
+컴퓨터는 모든 데이터를 0 또는 1 로 저장하게 된다. 
+그렇기 때문에 예를들어 "apple" 라는 단어도 결국에는 이진 데이터로 저장하게 된다. 
+아래 그림은 아스키코드표의 일부이다.(UTF-8, ISO-8859-1, EUC-KR 등도 일치한다.)
+https://ko.wikipedia.org/wiki/ASCII
+ 
+Base64 인코딩하는 방법은 6bit 단위로 Base64 CharsetMap 과 문자열 맵핑을 한다. 
+아래 Base64 Charset Map 과 맵핑하는 과정의 예시이다.
+이진 데이터를 일렬로 붙히고 아래와 같고 다시 6bit 로 나누고 해당 문자열을 Base64 코드에 맵핑 하는 과정을 거친다. 
+이 과정에서 남는 비트(2bit당)에 대해서는 "=" 문자열 만큼 패딩을 표시해준다.
+
+아래는 Base64 코드표이다.
+https://ko.wikipedia.org/wiki/%EB%B2%A0%EC%9D%B4%EC%8A%A464
+결국 위와 같은 과정을 거치어 apple -> YXBwbGU= 문자열로 변경된다. 
+이렇듯 원 문자열이 알아 보기 힘들게 난독화 됐지만 분명 암호화라 할 수 없는 것이다. 
+위에 인코딩 규칙만 알면 누구나 디코딩을 할 수 있기 때문이다. 
+또한 Base64 인코딩은 인코딩후 문자열의 길이가 늘어나는 특징이 있는데(위 예시 같은 경우 5자에서 -> 8자로)  
+이로인해  30% 이상의 오버헤드가 발생한다.
+Base64 Encoding In Java
+Base64 인코딩 처리는 대부분 언어에서 여러가지 방법으로 지원을 한다. 
+뭐 직접 구현을 할 수도 있다. 
+자바에서도 apache.common 패키지의 라이브러리를 사용할 수 도 있지만 
+자바8부터는 자바 표준 API 자체에서 지원을 한다. 
+위에서 사용 예제를 직접 자바 8의 표준 API 를 통해서 구현해 보겠다.
+
+String text = "apple";
+
+final byte[] asciiByte = text.getBytes(StandardCharsets.US_ASCII);
+final byte[] base64Byte = Base64.getEncoder().encode(asciiByte);
+for (byte b : asciiByte) { //origin
+	System.out.println((char) b  + "--> (십진수:" + b + " 이진수:" + String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0')+")");
+}
+System.out.println("------------------------------------");
+for (byte b : base64Byte) { //base65
+	System.out.println((char) b  + "--> (십진수:" + b + " 이진수:" + String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0')+")");
+}
+아래 코드는 apple 이라는 단어의 byte[] 배열을 얻어 Base64 인코딩 된 byte[] 배열을 얻는 과정이다.
+final byte[] asciiByte = text.getBytes(StandardCharsets.US_ASCII);
+final byte[] base64Byte = Base64.getEncoder().encode(asciiByte);
+ 
+아래 코드는 -128 ~ 127의 범위를 가지는 byte 를 Unsigned 한 0 ~ 255 형태로 변경한 이후 
+2진수 형태로 표시하기 위한 코드이다.
+String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0')+")");
+ 
+결과
+
+ 
+Base64 인코딩은 왜 사용하는가?
+위에서 언급했듯이 Base64 인코딩은 오버헤드가 발생한다. 
+그럼에도 불구하고 Base64 인코딩을 사용하는 이유는 무엇일까? 
+XML 이나 HTML 같은 문자를 전송하는 MEDIA 타입에 
+우리는 멀티미디어 파일 (오디오, 이미지, 영상) 들을 같이 전송하고 싶을 때가 있다. 
+이 경우 해당 바이너리 데이터를 문자열로 인코딩이 필요한데 그때 사용할 수 있다. 
+또다른 예를들면 MIME(Multipurpose Internet Mail Extensions) 등 
+메일 표준 포맷에서는 7bit 형태의 아스키 문자로 전송한다. 
+그렇기 때문에 그 이상의 이진데이터는 문자열 인코딩이 필요한데 그때 여러 인코딩 방법중 base64가 사용된다.
+그렇다면 꼭 Base64여만 하는 이유는 뭘까? 
+아스키코드에 포함된 126개의 문자와 제어문자 중 일부는 하드웨어나 운영체제에 따라 인코딩 형태가 다르거나 존재하지 않을 수도 있다. 
+하지만 영대,소문자 숫자 + / 는 같은 인코딩을 보장한다. 
+이러한 문자를 안전한 문자(secure string)라 한다. 
+이러한 안전한 문자만을 사용하는 Base64 인코딩은 데이터를 외부에 
+송 수신시에 Client 나 Server의 스펙에 의존없이 안전하게 처리할 수 있다.
+
+출처: https://warpgate3.tistory.com/entry/Base64-Encoding [무명소졸의 웹개발:티스토리]
