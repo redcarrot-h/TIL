@@ -1,0 +1,78 @@
+### IoC 정의
+
+**제어 반전**, **제어의 반전**, **역제어**는 프로그래머가 작성한 프로그램이 재사용 라이브러리의 [흐름 제어](https://ko.wikipedia.org/wiki/%ED%9D%90%EB%A6%84_%EC%A0%9C%EC%96%B4)를 받게 되는 [소프트웨어 디자인 패턴](https://ko.wikipedia.org/wiki/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4_%EB%94%94%EC%9E%90%EC%9D%B8_%ED%8C%A8%ED%84%B4)을 말한다. 줄여서 **IoC**(Inversion of Control)이라고 부른다. 전통적인 프로그래밍에서 흐름은 프로그래머가 작성한 프로그램이 외부 라이브러리의 코드를 호출해 이용한다. 하지만 제어 반전이 적용된 구조에서는 외부 라이브러리의 코드가 프로그래머가 작성한 코드를 호출한다. 설계 목적상 제어 반전의 목적은 다음과 같다:
+
+- 작업을 구현하는 방식과 작업 수행 자체를 분리한다.
+- 모듈을 제작할 때, 모듈과 외부 프로그램의 결합에 대해 고민할 필요 없이 모듈의 목적에 집중할 수 있다.
+- 다른 시스템이 어떻게 동작할지에 대해 고민할 필요 없이, 미리 정해진 협약대로만 동작하게 하면 된다.
+- 모듈을 바꾸어도 다른 시스템에 부작용을 일으키지 않는다.
+
+### IoC **원리 설명**
+
+**좋지 않은 설계 방식**
+
+![https://nzzi.kr/assets/spring/ioc1.jpg](https://nzzi.kr/assets/spring/ioc1.jpg)
+
+그림 1
+
+- 상위 모듈에서 하위 모듈을 관리한다. (제어권이 상위 모듈에 있음)
+
+**문제점**
+
+![https://nzzi.kr/assets/spring/ioc2.jpg](https://nzzi.kr/assets/spring/ioc2.jpg)
+
+그림 2
+
+- 상위 모듈에서 하위 모듈을 관리하면 Coupling(결합도)가 증가하여 모듈화가 어려워진다.
+- 예시로 `Model`을 변경하면 그와 관련된 `Repository` 가 수정되고 `Service` 가 수정되고 … (관련된 코드는 전부 수정됨)
+
+**Inversion of control 으로 해결**
+
+![https://nzzi.kr/assets/spring/ioc3.jpg](https://nzzi.kr/assets/spring/ioc3.jpg)
+
+그림 3
+
+- IoC 컨테이너에 의해 객체가 생성되고 관리, 주입된다.
+
+![https://nzzi.kr/assets/spring/ioc4.jpg](https://nzzi.kr/assets/spring/ioc4.jpg)
+
+그림 4
+
+- 의존 관계(=제어권, control)가 역전(Inversion)되어, 상위 모듈은 하위 모듈로 부터 자유로워진다.(결합력이 감소되었으므로)
+
+### IoC 사례
+
+**1.프레임 워크(Framework)**
+**프레임워크(Framework)**에서 제어의 역전을 찾아볼 수 있다. 프레임워크 위에 자신이 개발한 클래스를 등록해두고 프레임워크가 흐름을 주도하는 중에 개발자가 작성한 애플리케이션 코드를 사용하도록 만드는 방식이다.
+
+- **참고. 라이브러리와 프레임워크**
+    - 라이브러리 : 자주 사용될만한 기능들을 모아 놓은 것, 사용자가 직접 전체적인 흐름을 만든다.
+    - 프레임워크 : 디자인 패턴, 라이브러리 요소를 포함하여 제어의 흐름이 내재되있다. 가져다가 사용한다기보다 그 안에 들어가서 사용하는 개념이 적절하다.
+
+**2.디자인 패턴(Design Pattern)**
+
+**디자인 패턴(Design Pattern)**에서도 찾을 수 있다. 아래 예시에서 추상 클래스인 UserDAO를 상속한 서브 클래스는 getConnection 메서드를 구현하지만 이 메서드가 언제 사용되는지는 자기 자신은 알 수가 없다.
+
+```
+class CustomDAO extends UserDAO {
+    public Connection **getConnection()** throws Exception {
+        // Custom DB Connection
+    }
+}
+```
+
+서브 클래스에서 사용하는 시점을 결정하는 것이 아니라 슈퍼 클래스인 UserDAO의 템플릿 메서드인 바로 add, get 메서드 등에서 필요로할 때 호출해서 사용된다.
+
+3.**서블릿(Servlet)**
+
+**서블릿(Servlet)**에서 그 예를 찾아볼 수 있다. 서블릿에 대한 제어권을 가진 컨테이너가 적절한 시점에서 서블릿 클래스의 오브젝트를 생성하고 그 안의 메서드를 호출한다.
+
+### 출처
+
+[https://ko.wikipedia.org/wiki/스프링_프레임워크#특징](https://ko.wikipedia.org/wiki/%EC%8A%A4%ED%94%84%EB%A7%81_%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC#%ED%8A%B9%EC%A7%95)
+
+[https://ko.wikipedia.org/wiki/제어_반전?tableofcontents=0](https://ko.wikipedia.org/wiki/%EC%A0%9C%EC%96%B4_%EB%B0%98%EC%A0%84?tableofcontents=0)
+
+[https://nzzi.kr/spring/스프링-제어-반전.html](https://nzzi.kr/spring/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%A0%9C%EC%96%B4-%EB%B0%98%EC%A0%84.html)
+
+[https://madplay.github.io/post/spring-framework-basic-inversion-of-control](https://madplay.github.io/post/spring-framework-basic-inversion-of-control)
