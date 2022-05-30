@@ -1,0 +1,32 @@
+[Spring Boot] 스프링부트 application.yml파일 설정하기 (yml VS properties)
+
+스프링부트 application.yml VS application.properties
+
+이번에는 처음에 스프링부트를 접하면서 application.yml로 설정해놓고 배웠었기에 쭉 사용해왔는데 이번에 기존의application.properties로 설정된 프로젝트를 보면서 느낀 둘의 차이점과 장단점을 간단하게 비교해보려고 한다.
+
+우선, 스프링부트로 프로젝트를 만들면 기존에 application.properties로 돼있는데 이를 application.yml로 바꾸기 위해서는 Refactor->Rename으로 뒷부분을 yml로 바꿔주면 스프링부트에서 자동으로 yml 형식으로 호환되게끔 바꿔준다.
+
+application.properties와 application.yml
+
+사용 방법
+
+application.properties 사용방법
+
+application.yml 사용방법
+# -  주석처리는 #으로 한 줄을 주석으로 처리할 수 있다.
+
+리스트 작성 방법
+
+리스트로 표현할 때 application.properties VS application.yml   
+
+리스트로 표현할 때 yml의 경우 위의 사진에서처럼 -로 간단하게 표현이 가능하다.
+
+properties와 비교했을 때 yml의 장점
+
+일단, 한 눈에 보기에도 가독성이 좋다
+불필요한 코드의 반복을 피할 수 있다
+계층 구조로 이해하기 쉽고 쓰기 편하다
+
+
+출처 : 
+https://primetime.tistory.com/entry/Spring-Boot-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-applicationyml%ED%8C%8C%EC%9D%BC-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0-yml-VS-properties
