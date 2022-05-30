@@ -1,0 +1,53 @@
+IllegalAccessError: class lombok.javac.apt.LombokProcessor
+
+스프링 버전을 2.4.3으로 낮추었더니 갑자기 에러가 발생함
+-----------------------------------------------------------------------------------------------
+java.lang.IllegalAccessError: class lombok.javac.apt.LombokProcessor (in unnamed module @0x2fbb01ba) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler)
+
+Spring boot에서 Gradle task로 war파일을 build하려고 하다가 오류를 만났다.
+
+오류:
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> java.lang.IllegalAccessError: class lombok.javac.apt.LombokProcessor (in unnamed module @0x2fbb01ba) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler) because module jdk.compiler does not export com.sun.tools.javac.processing to unnamed module @0x2fbb01ba
+ 
+
+원인은 lombok과 java버전이 잘 맞지 않아서 나타나는 문제인것 같다.
+프로젝트의 자바버전은 1.8로 lombok은 1.18.20으로 하면 맞는다는 것을 알게 되었다.
+
+ 
+
+해결방법 : lombok의 버전을 명시해준다!
+
+build.gradle파일에서
+
+dependencies{
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+⏬
+⏬
+⏬   이렇게 작성했었는데, 아래처럼 버전을 명시하여 수정하면 된다!
+⏬
+⏬
+
+
+dependencies{
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+ 
+
+ 
+
+gradle수정 후, Refresh Gradle Project를 잊지 말아야 한다 :)
+
+
+출처 : 
+https://jin2rang.tistory.com/entry/javalangIllegalAccessError-class-lombokjavacaptLombokProcessor-in-unnamed-module-0x2fbb01ba-cannot-access-class-comsuntoolsjavacprocessingJavacProcessingEnvironment-in-module-jdkcompiler
+ 
+
+ 
+
