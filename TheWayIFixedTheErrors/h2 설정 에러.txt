@@ -1,0 +1,88 @@
+Spring Data JPA & H2 데이터베이스 연결하기(인메모리, TCP)
+
+Dependency 설정
+Spring Data JPA와 H2 데이터베이스를 사용하기 위해 우선 프로젝트에 dependency 설정을 해야 합니다.
+Spring Initializr로 프로젝트를 생성한다면 dependency에서 spring data jpa와 h2를 추가하시면 되고, 아니면 자신의 프로젝트에 맞게 아래 설정을 추가해 주시면 됩니다.
+
+
+gradle 프로젝트 -> build.gradle 파일에 추가
+implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+implementation (or runtimeOnly) 'com.h2database:h2'
+
+maven 프로젝트 -> pom.xml 파일에 추가
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-jpa</artifactId>
+</dependency>
+
+인메모리 방식
+
+applicaton.properties에 하기 내용 추가
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:springcoredb
+ 
+
+src/main/resources/application.yml에는 하기 내용 추가
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:mem:test # test 부분을 자신이 원하는 것으로 바꾸시면 됩니다. 
+    username: sa # username과 password는 자신의 설정에 맞게
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create # 어플리케이션을 시작할 때 데이터베이스를 초기화하고 다시 테이블 생성
+    properties:
+      hibernate:
+        format_sql: true # 실행되는 query를 보여줌
+
+logging.level:
+  org.hibernate.SQL: debug
+
+TCP 서버 방식
+TCP 서버 방식은 인메모리 방식과 다르게 어플리케이션이 종료되어도 데이터가 사라지지 않고 유지되는 방식입니다. TCP 서버 방식을 사용하기 위한 설정은 다음과 같습니다. 
+
+src/main/resources/application.yml
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/test # test 부분을 자신이 원하는 것으로 바꾸시면 됩니다.
+    username: sa # username과 password는 자신의 설정에 맞게
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true # 실행되는 query를 보여줌
+    
+logging.level:
+  org.hibernate.SQL: debug
+인메모리 방식과 다르게 ddl-auto: update 옵션을 사용합니다. create 옵션을 사용하게 되면 애플리케이션 시작 시 이전 데이터를 모두 드랍하고 다시 테이블을 생성하기 때문에 TCP 서버 방식을 사용해도 모든 데이터가 사라지게 됩니다.
+
+다음으로 인메모리 방식은 어플리케이션에서 데이터베이스를 생성해 메모리에 올렸다면, TCP 서버 방식은 데이터베이스를 먼저 생성해야 합니다. 
+
+데이터베이스를 생성할 때는 JDBC URL에 왼쪽의 url을 입력하고, 다음 접속부터는 오른쪽의 url을 입력하시면 됩니다. (오른쪽 url = application.yml에 설정한 url)
+
+인메모리 방식과 마찬가지로 어플리케이션을 실행하면 USER 테이블이 생성되는 것을 볼 수 있고 데이터를 입력하고 조회하면 Json 형식으로 데이터를 확인하실 수 있습니다. 
+
+이후 어플리케이션을 종료해도 H2 콘솔에서 데이터베이스에 연결하면 데이터가 그대로 남아있는 것을 확인하실 수 있습니다.
+
+출처 : https://wadekang.tistory.com/27
+ 
