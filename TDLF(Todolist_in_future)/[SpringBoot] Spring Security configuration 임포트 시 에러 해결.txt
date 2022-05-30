@@ -1,0 +1,44 @@
+[SpringBoot] Spring Security configuration 임포트 시 에러 해결
+
+문제 상황
+
+Spring Security를 적용하기위해 Security Config 파일을 생성하던 중이었다.
+public class SecurityConfig extends WebSecurityConfigurerAdapter { // 상속 클래스 오류!
+ // 생략
+}
+위처럼 Security 설정을 위한 필수적인 코드를 작성하고 있는데 자꾸 WebSecurityConfigurerAdapter 클래스가 임포트되지 않았다.
+계속 빨간 글자로 날 위협하고.. java lib path 추가해준다고 하고 그러는데.. 다 해도 뭔 소용이 없었다.
+다른 security 내 library도 안되나 해서 import 해보는데 다 안됐다.
+implementation 'org.springframework.boot:spring-boot-starter-security'
+물론 gradle에 security 의존성 추가도 잘 해놨다! 더 이상 할게 없는데 대체 왜..??
+
+ 
+2. Spring Boot version 변경
+
+[build.gradle] 2.5.6 -> 2.4.3
+
+plugins {
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+ 
+에...? 진짜 하니까 됨..
+예전에 만들던 프로젝트 버전이랑 지금 하고있는거랑 spring boot 버전이 달라서 security 버전도 자동으로 달랐는데 혹시 몰라 예전 프로젝트의 버전과 똑같이 설정해보았다. 근데 됨..
+버전 이슈인가 해서 2.4, 2.5 차이 같은거 검색했을 땐 security 저런 이슈는 없었는데 내가 덜찾아본건가?
+아니 진짜 이게 이슈라면 버전 쳤을 때 상위에는 떴어야하는거 아닌가? 뭐지..? 뭐지..?! (왜 되지가 가장 무서운건데 ㅠㅠ)
+내 프로젝트가 뭔가 꼬여있던건지 버전 내리니까 잘 동작하는건지 정확히는 모르겠는데
+확실한건 2.4.x 버전으로 다시 돌려보니까 다시 에러가 났다.
+결론 : 버전을 2.4.x 로 다운 하도록 하자.. (아니면 시큐리티만 강제로 다운..? 누가 시도해봐주세요..ㅎ)
+
+
+출처 : https://yuja-kong.tistory.com/188
+
++ 스프링 시큐리티 5.5.1 버전으로 쓰는 거 나중에 시도해보기!
+Thanks to everyone that contributed to this issue. The fix was merged into the main branch and backported to 5.5.x, 5.4.x, 5.3.x, and 5.2.x branches.
+
+@selfenergy, @whcrow, @austinarbor, @z0mb1ek, would you please test those changes in your applications by using the 5.5.1-SNAPSHOT version of Spring Security? It would be good if you folks could do it 😄.
+
+https://github.com/spring-projects/spring-security/issues/9787
+
+ 
