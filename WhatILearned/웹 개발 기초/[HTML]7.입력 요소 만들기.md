@@ -61,3 +61,5 @@ nickname항목에는 '유노코딩'이, job항목에는 '프리랜서'가 입력
         <input name="birthday" type="date" /> <br> <br>
     </body>
 </html>
+
+출처 : https://www.youtube.com/watch?v=CFHK53vBBns&list=PLFeNz2ojQZjtQc7mt8E9fNzIh9or34A61&index=12

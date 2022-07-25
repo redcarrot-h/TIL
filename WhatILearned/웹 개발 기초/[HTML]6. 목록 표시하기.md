@@ -99,3 +99,5 @@ li 태그는 목록에 들어가는 항목 하나 하나를 표현할 때 사용
 </ol>
 
 -> ul, ol, li는 모두 블록 레벨 요소를 만드는 태그이다!
+
+출처 : https://www.youtube.com/watch?v=sp4ruWfpY2k&list=PLFeNz2ojQZjtQc7mt8E9fNzIh9or34A61&index=11

@@ -46,3 +46,6 @@ textarea는 여러 줄의 일반 텍스트를 입력할 수 있는 입력 요소
 1. select 태그 안에 multiple이라고 적으면 닫힌 상태가 아닌 펼쳐진 상태에서 모든 value를 볼 수 있으며 ctrl 버튼을 누르면 여러개를 선택할 수 있음.  
 2. option 태그 안에 selected라고 적으면 이미 선택이 되어진 상태로 보여짐.  
 3. textarea에 rows는 행수, cols는 열수를 지정할 수 있음. 
+
+
+출처 : https://www.youtube.com/watch?v=nTrf_lCJl1U&list=PLFeNz2ojQZjtQc7mt8E9fNzIh9or34A61&index=13
