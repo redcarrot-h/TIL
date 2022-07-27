@@ -41,7 +41,7 @@
 | 단위 | 의미 |
 |:----------|:----------|
 | px   | 모니터 상의 화소 하나 크기에 대응하는 절대적인 크기  |
-| rem  | <html> 태그의 font-size에 대응하는 상대적인 크기   |
+| rem  | html 태그의 font-size에 대응하는 상대적인 크기   |
 | em   | 부모태그(상위태그)의 font-size에 대응하는 상대적인 크기   |
 
 사용 예
@@ -115,7 +115,36 @@ span{ color: #000000; }
 /* R: 70%, G: 10%, B: 20% */
 span{ color: rgb(70%, 10%, 20%); }
 ```
+### 실습
 
+``` css
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HTML 문서</title>
+        <style>
+            p{ 
+                text-align: justify; 
+                color: rgb(100%, 0%, 0%);
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            결코 시간이 멈추어 질순 없다 yo~!
+            무엇을 망설이나 되는 것은 단지 하나 뿐인데
+            바로 지금이 그대에게 유일한 순간이며
+            바로 여기가 단지 그대에게 유일한 장소이다
+
+            환상 속에 그대가 있다
+            모든 것이 이제 다 무너지고 있어도
+            환상 속에 아직 그대가 있다
+            지금 자신의 모습은 진짜가 아니라고 말한다
+        </p>
+    </body>
+</html>
+```
 
 
 출처 : youtube.com/watch?v=tvMxptAqWSI&t=2s
